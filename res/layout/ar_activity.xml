@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestARFirst" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/hello_world" />
+    
+    <com.wikitude.architect.ArchitectView
+		android:keepScreenOn="true" xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:wikitude="http://schemas.android.com/apk/res/com.thej.fyp.easycontact"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:id="@+id/architectView">
+
+        <TextView
+            android:id="@+id/faceNumbers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" >
+
+            <requestFocus />
+        </TextView>
+
+    </com.wikitude.architect.ArchitectView>
+
+</RelativeLayout>
