@@ -21,9 +21,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.media.FaceDetector;
 import android.os.AsyncTask;
 import android.text.method.Touch;
 import android.util.Log;
@@ -56,7 +58,8 @@ public class DrawRect extends View implements View.OnClickListener {
 	}
 
 	@Override
-	public void onDraw(Canvas canvas) { System.out.println("onDraw");
+	public void onDraw(Canvas canvas) {
+		System.out.println("onDraw");
 		canvas.drawColor(0x00AAAAAA);
 		Paint myPaint = new Paint();
 		myPaint.setColor(Color.YELLOW);
@@ -69,21 +72,17 @@ public class DrawRect extends View implements View.OnClickListener {
 
 		for (int i = 0; i < faceRecArray.size(); i++) {
 			canvas.drawRect(faceRecArray.get(i), myPaint);
-			canvas.drawText("" + CamActivity.resultString, faceRecArray.get(i).centerX(), faceRecArray
-					.get(i).centerY(), textPaint);
-//			CamActivity.mCamera.setPreviewCallback(previewCallback);
-//			CamActivity.mCamera.setOneShotPreviewCallback(previewCallback);			
-			//CamActivity.mCamera.stopPreview();
-			// super.onDraw(canvas);
+			canvas.drawText("" + CamActivity.resultString, faceRecArray.get(i)
+					.centerX(), faceRecArray.get(i).centerY(), textPaint);
 		}
-		
-//		if(CamActivity.takeImgeFlag){
-//		CamActivity.mCamera.takePicture(null, null, jpegCallback);
-//		System.out.println("picture taken");
-//		AsyncTask<String, integer, String> result = new Recognize()
-//				.execute("");
-//		Log.d("webserviceeee", "mesg: " + result);
-//		}
+
+		// if(CamActivity.takeImgeFlag){
+		// CamActivity.mCamera.takePicture(null, null, jpegCallback);
+		// System.out.println("picture taken");
+		// AsyncTask<String, integer, String> result = new Recognize()
+		// .execute("");
+		// Log.d("webserviceeee", "mesg: " + result);
+		// }
 		// while (CamActivity.takeImgeFlag) {
 		// System.out.println("takeimage: "+CamActivity.takeImgeFlag);
 		// CamActivity.mCamera.setPreviewCallback(previewCallback);
@@ -94,51 +93,94 @@ public class DrawRect extends View implements View.OnClickListener {
 		// Log.d("webserviceeee", "mesg: " + result);
 		// } //CamActivity.mCamera.stopPreview();
 	}
-	
-	/** Handles data for jpeg picture */
-	PictureCallback jpegCallback = new PictureCallback() {
-		public void onPictureTaken(byte[] data, Camera camera) {
-			System.out.println("jpgcall");
-			FileOutputStream outStream = null;
-			try {
-				// Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0,
-				// data.length);
-				// Bitmap croppedImage = Bitmap
-				// .createBitmap(
-				// bitmap,
-				// drawView.faceRecArray.get(0).left,
-				// drawView.faceRecArray.get(0).top,
-				// drawView.faceRecArray.get(0).width(),
-				// drawView.faceRecArray.get(0).height());
-				// Bitmap croppedImage = Bitmap.createBitmap(bitmap, 30, 30,
-				// drawView.faceRecArray.get(0).width(),
-				// drawView.faceRecArray.get(0).height());
 
-				// File sdcard = Environment.getExternalStorageDirectory();
-				// File f = new File (sdcard, "filename.png");
-				// FileOutputStream out = new FileOutputStream(f);
-
-				// write to local sandbox file system
-				// outStream =
-				// CameraDemo.this.openFileOutput(String.format("%d.jpg",
-				// System.currentTimeMillis()), 0);
-				// Or write to sdcard
-				outStream = new FileOutputStream(String.format(
-						"/mnt/sdcard/t1.jpg", System.currentTimeMillis()));
-				// croppedImage.compress(Bitmap.CompressFormat.JPEG, 100,
-				// outStream);
-				outStream.write(data);
-				outStream.close();
-				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-			}
-			Log.d(TAG, "onPictureTaken - jpeg");
-		}
-	};
+//	/** Handles data for jpeg picture */
+//	PictureCallback jpegCallback = new PictureCallback() {
+//		public void onPictureTaken(byte[] data, Camera camera) {
+//			System.out.println("jpgcall");
+//			FileOutputStream outStream = null;
+//			Bitmap sourceImage;
+//			FaceDetector arrayFaces;
+//			FaceDetector.Face getAllFaces[] = new FaceDetector.Face[NUM_FACES];
+//			FaceDetector.Face getFace = null;
+//			int picWidth, picHeight;
+//			PointF eyesMidPts[] = new PointF[NUM_FACES];
+//			float eyesDistance[] = new float[NUM_FACES];
+//
+//			BitmapFactory.Options bfo = new BitmapFactory.Options();
+//			bfo.inPreferredConfig = Bitmap.Config.RGB_565;
+//
+//			try {
+//				outStream = new FileOutputStream(String.format(
+//						"/mnt/sdcard/t1.jpg", System.currentTimeMillis()));
+//				outStream.write(data);
+//				outStream.close();
+//
+//				sourceImage = BitmapFactory.decodeFile("/mnt/sdcard/t1.jpg",
+//						bfo);
+//
+//				picWidth = sourceImage.getWidth();
+//				picHeight = sourceImage.getHeight();
+//				System.out.println(picWidth + "x" + picHeight);
+//
+//				arrayFaces = new FaceDetector(picWidth, picHeight, NUM_FACES);
+//				arrayFaces.findFaces(sourceImage, getAllFaces);
+//
+//				sourceImage = Bitmap.createScaledBitmap(sourceImage,
+//						picWidth / 2, picHeight / 2, false);
+//
+//				for (int i = 0; i < getAllFaces.length; i++) {
+//					getFace = getAllFaces[i];
+//					try {
+//						PointF eyesMP = new PointF();
+//						getFace.getMidPoint(eyesMP);
+//						eyesDistance[i] = getFace.eyesDistance();
+//						eyesMidPts[i] = eyesMP;
+//
+//						Log.i("Face", i + " " + getFace.confidence() + " "
+//								+ getFace.eyesDistance() + " " + "Pose: ("
+//								+ getFace.pose(FaceDetector.Face.EULER_X) + ","
+//								+ getFace.pose(FaceDetector.Face.EULER_Y) + ","
+//								+ getFace.pose(FaceDetector.Face.EULER_Z) + ")"
+//								+ "Eyes Midpoint: (" + eyesMidPts[i].x + ","
+//								+ eyesMidPts[i].y + ")");
+//					} catch (Exception e) {
+//
+//					}
+//
+//					int width = (int) ((eyesMidPts[i].x + (eyesDistance[i] * 2))
+//							- (eyesMidPts[i].x - (eyesDistance[i] * 2)));
+//					int height = (int) ((eyesMidPts[i].y + (eyesDistance[i] * 2))
+//							- (eyesMidPts[i].y - (eyesDistance[i] * 2)));
+//					int x = (int) (eyesMidPts[i].x + (eyesDistance[i] * 2));
+//					int y = (int) (eyesMidPts[i].y - (eyesDistance[i] * 2));
+//
+//					Bitmap croppedImage = Bitmap.createBitmap(sourceImage, x, y, width,
+//							height);
+//					
+//					try {
+//					       FileOutputStream out = new FileOutputStream("/mnt/sdcard/croppednew.jpg");
+//					       croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, out);
+//					} catch (Exception e) {
+//					       e.printStackTrace();
+//					}
+//				}
+//
+//				// canvas.drawRect((int) (myMidPoint.x - myEyesDistance * 2),
+//				// (int) (myMidPoint.y - myEyesDistance * 2),
+//				// (int) (myMidPoint.x + myEyesDistance * 2),
+//				// (int) (myMidPoint.y + myEyesDistance * 2), myPaint);
+//
+//				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} finally {
+//			}
+//			Log.d(TAG, "onPictureTaken - jpeg");
+//		}
+//	};
 
 	private class Recognize extends AsyncTask<String, integer, String> {
 
