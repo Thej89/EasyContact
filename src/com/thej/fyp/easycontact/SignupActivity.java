@@ -109,8 +109,8 @@ public class SignupActivity extends Activity {
 			p5.setName("email");
 			p5.setValue(params[0][3]);
 			p5.setType(String.class);
+			request.addProperty(p5);
 			
-			request.addProperty(p3);
 			Log.d("Arrayy", ""+params[0][0]+"/"+params[0][1]+"/"+params[0][2]+"/"+params[0][3]);
 			envelope.setOutputSoapObject(request);
 

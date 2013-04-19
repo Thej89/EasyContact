@@ -50,6 +50,10 @@
             android:name="com.thej.fyp.easycontact.CamActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="sensor" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.thej.fyp.easycontact.SignUpActivity"
@@ -64,10 +68,10 @@
         </provider>
         <activity android:name="com.thej.fyp.easycontact.EasycontactLogin"></activity>
         <activity android:name="com.thej.fyp.easycontact.InitialPage">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.MAIN" /> -->
+<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
+<!--             </intent-filter> -->
         </activity>
         <activity android:name="com.thej.fyp.easycontact.MenuPage"></activity>
     </application>
